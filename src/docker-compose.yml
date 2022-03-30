@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  predictionservice.api:
+    image: ${DOCKER_REGISTRY-}predictionserviceapi
+    build:
+      context: .
+      dockerfile: PredictionService.API/Dockerfile
+  
+  predictionservice.api-dapr:
+    container_name: predictionservice-api-dapr
+    image: "daprio/dapr:latest"
+    network_mode: "service:predictionservice.api"
+    depends_on:
+      - predictionservice.api  
