@@ -24,7 +24,9 @@ public class PredictController : ControllerBase
     [HttpPost()]
     public async Task<IActionResult> Predictions(ModelInput model)
     {
-        _logger.LogDebug($"data for {model.Id} - riceved");
-       return Ok(model);
+        var prediction = _mlService.Predict(model);
+        _logger.LogDebug($"Predicted Score: {prediction.QualityScore} - Probability {prediction.Score}");
+
+       return Ok(prediction);
     }
 }

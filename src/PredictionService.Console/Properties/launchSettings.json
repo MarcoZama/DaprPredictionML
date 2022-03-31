@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PredictionService.Console": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

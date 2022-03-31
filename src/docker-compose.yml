@@ -11,5 +11,48 @@ services:
     container_name: predictionservice-api-dapr
     image: "daprio/dapr:latest"
     network_mode: "service:predictionservice.api"
+    command: [ "./dapr",
+    "--app-id", "predictionservice.api",
+    "--app-port", "80",
+    "--components-path", "/dapr-components"
+    ]
+    volumes:
+      - "./Components/:dapr-components"
     depends_on:
       - predictionservice.api  
+
+  predictionservice.console:
+    image: ${DOCKER_REGISTRY-}predictionserviceconsole
+    build:
+      context: .
+      dockerfile: PredictionService.Console/Dockerfile
+
+  predictionservice.console-dapr:
+    container_name: predictionservice-console-dapr
+    image: "daprio/dapr:latest"
+    network_mode: "service:predictionservice.console"
+    command: [ "./dapr",
+        "--app-id", "predictionservice.console",        
+        "--components-path", "/dapr-components"
+    ]
+    volumes:
+      - "./Components/:dapr-components"
+    depends_on:
+      - predictionservice.console  
+
+  rabbitMq:
+    container_name: rabbitmq:3
+    image: rabbitmq:3-management
+    ports:
+     - "5672:5672"
+     - "15672:15672"
+    hostname: "oripan-rabbit"
+    volumes:
+        - "./data:/var/lib/rabbitmq/mnesia/"
+    networks:
+        - oripan-network
+
+
+        
+  
+
