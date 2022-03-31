@@ -1,5 +1,6 @@
 using Dapr;
 using Microsoft.AspNetCore.Mvc;
+using PredictionService.API.Services;
 
 namespace PredictionService.API.Controllers;
 
@@ -7,12 +8,13 @@ namespace PredictionService.API.Controllers;
 [Route("[controller]")]
 public class PredictController : ControllerBase
 {
-  
-
     private readonly ILogger<PredictController> _logger;
 
-    public PredictController(ILogger<PredictController> logger)
+    private readonly IMLService _mlService;
+
+    public PredictController(ILogger<PredictController> logger, IMLService mlService)
     {
+        _mlService = mlService;
         _logger = logger;
     }
 
@@ -22,7 +24,7 @@ public class PredictController : ControllerBase
     [HttpPost()]
     public async Task<IActionResult> Predictions(ModelInput model)
     {
-        _logger.LogDebug($"{model.Name} - {model.Humidity}");
+        _logger.LogDebug($"data for {model.Id} - riceved");
        return Ok(model);
     }
 }

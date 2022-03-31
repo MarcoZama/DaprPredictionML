@@ -1,4 +1,4 @@
-using Microsoft.ML.Data;
+﻿using Microsoft.ML.Data;
 
 public class ModelInput
 {
